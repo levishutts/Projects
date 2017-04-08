@@ -1,0 +1,83 @@
+#Got from aowen87 on github
+
+	.pos 0
+init:   
+    irmovl Stack, %esp
+    irmovl Stack, %ebp
+    call Main
+    halt
+
+array:  
+    .long 0x10
+    .long 0x9
+    .long 0x8
+    .long 0x7
+    .long 0x6
+    .long 0x5
+    .long 0x4
+    .long 0x3
+    .long 0x2
+    .long 0x1
+        
+Main:   
+    pushl %ebp
+    rrmovl %esp, %ebp
+    irmovl $10, %eax     
+    pushl %eax            #push the array size onto the stack
+    irmovl array, %edx    #move the array pointer to edx
+    pushl %edx            #push the array onto the stack
+    call BubbleSort
+    rrmovl %ebp, %esp      
+    popl %ebp
+    ret
+        
+BubbleSort:
+    pushl %ebp
+    rrmovl %esp, %ebp
+    pushl %ebx             #push callee registers onto the stack
+    pushl %esi 
+    pushl %edi
+    mrmovl 8(%ebp), %eax   #store the array pointer into eax
+    mrmovl 12(%ebp), %edx  #store the length of the array into edx
+    irmovl $1, %ecx
+    subl %ecx, %edx        #length of the array - 1 into ecx (outer loop)
+    rrmovl %edx, %ebx      #length of array - 1 into ebx     (inner loop)
+    andl %edx, %edx        #set condition code
+    je  End      
+    
+Loop2:
+    mrmovl (%eax), %esi   #get the first value from the array => array[i]
+    irmovl $4, %ecx       #move 4 into ecx
+    addl %ecx, %eax       #increment the array to next index
+    mrmovl (%eax), %edi   #move the next element of the array into edi => array[i+1]
+    rrmovl %esi, %ecx     #move array[i] into ecx
+    subl %edi, %esi       #set the conditional flag (check to see if array[i] < array[i+1]
+    rrmovl %ecx, %esi     #move array[i] back into esi
+    cmovg %edi, %esi      #move array[i] into esi iff the conditional flag is positive
+    cmovg %ecx, %edi      #move array[i+1] into edi iff the conditional flag is positive
+    rmmovl %edi, (%eax)   #move edi into array[i+1]
+    irmovl $4, %ecx       #move 4 into ecx
+    subl %ecx, %eax       #decrement the array by one index
+    rmmovl %esi, (%eax)   #move esi into arrat[i]
+    addl %ecx, %eax       #increment the array by one index
+    irmovl $1, %ecx       #move 1 into ecx
+    subl %ecx, %ebx       #decrement the inner loop counter by 1
+    jne Loop2             #jump to Loop2 if the inner loop counter != 0
+    
+Loop1:
+    mrmovl 8(%ebp), %eax  #set eax to hold the pointer to the first element in the array
+    irmovl $1, %ecx       #move 1 into ecx
+    mrmovl 12(%ebp), %ebx #move the length of the array into ebx
+    subl %ecx, %ebx       #subtract 1 from ebx
+    subl %ecx, %edx       #decrement the outer loop counter by 1
+    jne Loop2             #jump to Loop2 if the outer loop counter != 0
+    
+End:
+    popl %edi             #pop the callee registers
+    popl %esi
+    popl %ebx
+    popl %ebp             #pop ebp
+    ret
+    
+    .pos 0x100
+Stack:
