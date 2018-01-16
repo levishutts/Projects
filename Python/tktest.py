@@ -28,17 +28,14 @@ def craters(n):
     return maxP;
     
 def prepare(map):
-    ratio = 255 / maxP
-    print(ratio)
-    print(math.floor(ratio * maxP))
     for x in range(width):
         for y in range(height):
-            map[y][x] = math.floor(map[y][x] * ratio)
+            map[y][x] = math.floor((map[y][x] / maxP) * 255)
             
 
 f = open('ramp.png', 'wb')      # binary mode is important
 w = png.Writer(width, height, greyscale=True)
-maxP = craters(20)
+maxP = craters(50)
 print(maxP)
 prepare(map)
 w.write(f, map)
