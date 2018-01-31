@@ -31,9 +31,9 @@ def entropy(p):
 # py : number of ocurrences of y=1
 # total : total length of the data
 def infogain(py_pxi, pxi, py, total):
-        
-	
-	return 0;
+    answer = entropy(float(py) / total) - (((float(pxi) / total) * entropy(float(py_pxi) / pxi)) + ((float(total - pxi) / total) * entropy(float(py - py_pxi) / (total - pxi))))
+
+    return answer;
 
 # OTHER SUGGESTED HELPER FUNCTIONS:
 # - collect counts for each variable value with each class label
