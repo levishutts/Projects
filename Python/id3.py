@@ -37,6 +37,21 @@ def infogain(py_pxi, pxi, py, total):
 
 # OTHER SUGGESTED HELPER FUNCTIONS:
 # - collect counts for each variable value with each class label
+def count(col):
+        py_pxi = 0
+        pxi = 0
+        py = 0
+        total = len(train)
+        for i in range(len(train)):
+                if train[i][-1] == 1:
+                        py += 1
+        for i in range(len(train)):
+                if train[i][col] == 1:
+                        pxi += 1
+                        if train[i][-1] == 1:
+                                py_pxi += 1
+
+        return infogain(py_pxi, pxi, py, total)
 # - find the best variable to split on, according to mutual information
 # - partition data based on a given variable	
 	
@@ -64,9 +79,17 @@ def print_model(root, modelfile):
 # Build tree in a top-down manner, selecting splits until we hit a
 # pure leaf or all splits look bad.
 def build_tree(data, varnames):
-    # >>>> YOUR CODE GOES HERE <<<<
+        maxG = 0
+        attr = ''
+        for i in range(len(varnames) - 1):
+                if maxG < count(i):
+                        maxG = count(i)
+                        attr = varnames[i]
+
+        print attr,':', maxG
+                
     # For now, always return a leaf predicting "1":
-    return node.Leaf(varnames, 1)
+        return node.Leaf(varnames, 1)
 
 
 # "varnames" is a list of names, one for each variable
