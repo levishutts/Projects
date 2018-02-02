@@ -21,40 +21,77 @@ root=None
 # Helper function computes entropy of Bernoulli distribution with
 # parameter p
 def entropy(p):
-
-	return -1 * (p * math.log(p, 2)) - ((1 - p) * math.log((1 - p), 2));
-	
-	
+        if(p < 1 and p > 0):
+                return (-p * math.log(p, 2)) - ((1 - p) * math.log((1 - p), 2));
+        return 0;
+		
 # Compute information gain for a particular split, given the counts
 # py_pxi : number of occurences of y=1 with x_i=1 for all i=1 to n
 # pxi : number of occurrences of x_i=1
 # py : number of ocurrences of y=1
 # total : total length of the data
 def infogain(py_pxi, pxi, py, total):
-    answer = entropy(float(py) / total) - (((float(pxi) / total) * entropy(float(py_pxi) / pxi)) + ((float(total - pxi) / total) * entropy(float(py - py_pxi) / (total - pxi))))
-
-    return answer;
+        x = 0
+        y = 0
+        if pxi != 0:
+                x = entropy(float(py) / total)
+        if total != pxi:
+                y = entropy(float(py-py_pxi)/(total-pxi))
+                
+        return (entropy(float(py) / total) - ((float(pxi) / total) * x + (float(total - pxi) / total) * y))
 
 # OTHER SUGGESTED HELPER FUNCTIONS:
 # - collect counts for each variable value with each class label
-def count(col):
-        py_pxi = 0
-        pxi = 0
-        py = 0
-        total = len(train)
-        for i in range(len(train)):
-                if train[i][-1] == 1:
-                        py += 1
-        for i in range(len(train)):
-                if train[i][col] == 1:
-                        pxi += 1
-                        if train[i][-1] == 1:
-                                py_pxi += 1
+def count(data, varnames):
+        px_count = {}
+        px_py_count = {}
 
-        return infogain(py_pxi, pxi, py, total)
+        for attr in varnames:
+                attr_count = 0
+                attr_py_count = 0
+                i = varnames.index(attr)
+                for row in data:
+                        attr_count += row[i];
+                        if row[i] == 1 and row[-1] == 1:
+                                attr_py_count += 1;
+                px_count[attr] = attr_count
+                px_py_count[attr] = attr_py_count
+
+        return (px_count, px_py_count, varnames[-1], len(data))
+                                        
 # - find the best variable to split on, according to mutual information
-# - partition data based on a given variable	
-	
+def find_node(data, varnames):
+        counts = count(data, varnames)
+        maxIG = 0
+        target = varnames[-1]
+        bestAttr = None
+
+        for attr in varnames:
+                if attr != target:
+                        pxi = counts[0][attr]
+                        py = counts[0][counts[2]]
+                        py_pxi = counts[1][attr]
+                        total = counts[3]
+                        attrGain = infogain(py_pxi, pxi, py, total)
+                        if maxIG < attrGain:
+                                maxIG = attrGain
+                                bestAttr = attr
+        return bestAttr
+        
+# - partition data based on a given variable
+def partition(data, varnames, attr):
+        if attr == None:
+                return
+        
+        true = []
+        false = []
+        for col in data:
+                if col[varnames.index(attr)] == 1:
+                        true.append(col)
+                else:
+                        false.append(col)
+
+        return (true, false)
 	
 	
 # Load data from a file
@@ -79,17 +116,27 @@ def print_model(root, modelfile):
 # Build tree in a top-down manner, selecting splits until we hit a
 # pure leaf or all splits look bad.
 def build_tree(data, varnames):
-        maxG = 0
-        attr = ''
-        for i in range(len(varnames) - 1):
-                if maxG < count(i):
-                        maxG = count(i)
-                        attr = varnames[i]
-
-        print attr,':', maxG
+        if len(data) == 0:
+                return node.Leaf(varnames, 1)
+        
+        counts = count(data, varnames)
+        
+        if counts[0][counts[2]] == counts[3]:
+                return node.Leaf(varnames, 1)
+        
+        elif counts[0][counts[2]] == 0:
+                return node.Leaf(varnames, 0)
+        
+        else:
+                split = find_node(data, varnames)
                 
-    # For now, always return a leaf predicting "1":
-        return node.Leaf(varnames, 1)
+                if split == None:
+                        return node.Leaf(varnames, 1)
+                part = partition(data, varnames, split)
+                attr = varnames.index(split)
+                return node.Split(varnames, attr, build_tree(part[0], varnames), build_tree(part[1], varnames))
+                
+        
 
 
 # "varnames" is a list of names, one for each variable
