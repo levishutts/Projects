@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TideAppv2</string>
+    <string name="title_activity_list">ListActivity</string>
+    <string-array name="spinner_array">
+        <item>Elkhorn Slough</item>
+        <item>Monterey</item>
+        <item>Santa Barbara</item>
+    </string-array>
+</resources>

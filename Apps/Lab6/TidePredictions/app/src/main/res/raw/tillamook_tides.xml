@@ -1,0 +1,128 @@
+
+	<datainfo>
+		<origin>NOAA/NOS/CO-OPS</origin>
+		<disclaimer>
+		Disclaimer: These data are based upon the latest information available as of the date of your request, and may differ from the published tide tables.
+		</disclaimer>
+	<datarange>Daily</datarange>
+		<producttype>Tide Prediction</producttype>
+		<stationname>Tillamook, Hoquarten Slough</stationname>
+		<state>OR</state>
+		<stationid>9437331</stationid>
+	
+		<stationtype>Subordinate</stationtype>
+		<referencedToStationName>Crescent City</referencedToStationName>
+		<referencedToStationId>9419750</referencedToStationId>
+		<HeightOffsetLow>* 0.58</HeightOffsetLow>
+		<HeightOffsetHigh>* 0.94</HeightOffsetHigh>
+		<TimeOffsetLow>195</TimeOffsetLow>
+		<TimeOffsetHigh>112</TimeOffsetHigh>
+		
+		<BeginDate>20170715 01:44</BeginDate>
+		<EndDate>20170716 19:55</EndDate>
+		
+		<dataUnits>Feet</dataUnits>
+		 
+	<Timezone>LST_LDT</Timezone>
+	<Datum>MLLW</Datum>
+	<IntervalType>High/Low</IntervalType>
+	<data>
+	
+			<item>
+				<date>2017/07/15</date>
+				<day>Sat</day>
+		
+				<time>01:44 AM</time>
+			
+				<pred>1.36</pred>
+			
+			<highlow>L</highlow>
+			
+			</item>
+		
+			<item>
+				<date>2017/07/15</date>
+				<day>Sat</day>
+		
+				<time>05:56 AM</time>
+			
+				<pred>5.13</pred>
+			
+			<highlow>H</highlow>
+			
+			</item>
+		
+			<item>
+				<date>2017/07/15</date>
+				<day>Sat</day>
+		
+				<time>01:45 PM</time>
+			
+				<pred>0.37</pred>
+			
+			<highlow>L</highlow>
+			
+			</item>
+		
+			<item>
+				<date>2017/07/15</date>
+				<day>Sat</day>
+		
+				<time>07:08 PM</time>
+			
+				<pred>5.94</pred>
+			
+			<highlow>H</highlow>
+			
+			</item>
+		
+			<item>
+				<date>2017/07/16</date>
+				<day>Sun</day>
+		
+				<time>02:48 AM</time>
+			
+				<pred>1.16</pred>
+			
+			<highlow>L</highlow>
+			
+			</item>
+		
+			<item>
+				<date>2017/07/16</date>
+				<day>Sun</day>
+		
+				<time>07:04 AM</time>
+			
+				<pred>4.72</pred>
+			
+			<highlow>H</highlow>
+			
+			</item>
+		
+			<item>
+				<date>2017/07/16</date>
+				<day>Sun</day>
+		
+				<time>02:33 PM</time>
+			
+				<pred>0.68</pred>
+			
+			<highlow>L</highlow>
+			
+			</item>
+		
+			<item>
+				<date>2017/07/16</date>
+				<day>Sun</day>
+		
+				<time>07:55 PM</time>
+			
+				<pred>6.18</pred>
+			
+			<highlow>H</highlow>
+			
+			</item>
+		
+		</data>
+</datainfo>

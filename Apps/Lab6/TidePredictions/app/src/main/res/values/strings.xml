@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Tide Predictions</string>
+    <string name="title_activity_list">ListActivity</string>
+    <string-array name="spinner_array">
+        <item>Tillamook</item>
+        <item>Empire</item>
+        <item>Florence</item>
+    </string-array>
+</resources>
